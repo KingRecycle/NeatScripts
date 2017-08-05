@@ -1,0 +1,10 @@
+example tiles by: www.kenney.nl (SUPPORT HIM!)
+
+The layout of the example tiles only works with 8-bit but you can use them for 4-bit you just need to
+figure out what goes into what array index for 4-bit as 4-bit is calculated differently from 8-bit.
+
+To use 8-bit with your own tiles, arrange your tiles like in the example. That is the order they are checked with the bitmask and array index.
+
+
+Go ahead and use and modify this script if you want.
+
