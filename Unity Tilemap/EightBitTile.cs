@@ -22,11 +22,6 @@ public class EightBitTile : Tile {
     Vector3Int LEFT = new Vector3Int(-1, 0, 0);
     Vector3Int RIGHT = new Vector3Int(1, 0, 0);
 
-    //126 -> 32 (should be 30)
-    //122 -> 30 (should be 32)
-    //91 -> 23 (should be 39)
-    //219 -> 39 (should be 23?)
-    //
     Dictionary<int, int> indexDictionary = new Dictionary<int, int>()
             {{2,1 }, {8, 2 }, {10,3 }, {11,4 }, {16, 5 }, {18, 6 }, {22, 7 }, {24, 8 },
             {26,9 }, {27, 10 }, {30, 11 }, {31, 12 }, {64,13 }, {66, 14 }, {72, 15 },
@@ -48,21 +43,21 @@ public class EightBitTile : Tile {
     }
 
     public override void GetTileData( Vector3Int position, ITilemap tilemap, ref TileData tileData ) {
-        int mask = HasWallTile(tilemap, position + new Vector3Int(-1, 1, 0), TOP_LEFT) ? 1 : 0; //UP-LEFT
+        int mask = HasWallTile(tilemap, position + TOP_LEFT, TOP_LEFT) ? 1 : 0; //TOP-LEFT
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( 0, 1, 0 ) ) ? 2 : 0; //UP
+        mask += HasWallTile( tilemap, position + TOP ) ? 2 : 0; //TOP
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( 1, 1, 0 ), TOP_RIGHT ) ? 4 : 0; //UP-RIGHT
+        mask += HasWallTile( tilemap, position + TOP_RIGHT, TOP_RIGHT ) ? 4 : 0; //TOP-RIGHT
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( -1, 0, 0 ) ) ? 8 : 0; //LEFT
+        mask += HasWallTile( tilemap, position + LEFT ) ? 8 : 0; //LEFT
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( 1, 0, 0 ) ) ? 16 : 0;  //RIGHT
+        mask += HasWallTile( tilemap, position + RIGHT ) ? 16 : 0;  //RIGHT
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( -1, -1, 0 ), BOTTOM_LEFT ) ? 32 : 0; //DOWN-LEFT
+        mask += HasWallTile( tilemap, position + BOTTOM_RIGHT, BOTTOM_LEFT ) ? 32 : 0; //BOTTOM-LEFT
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( 0, -1, 0 ) ) ? 64 : 0; //DOWN
+        mask += HasWallTile( tilemap, position + BOTTOM ) ? 64 : 0; //BOTTOM
 
-        mask += HasWallTile( tilemap, position + new Vector3Int( 1, -1, 0 ), BOTTOM_RIGHT ) ? 128 : 0; //DOWN RIGHT
+        mask += HasWallTile( tilemap, position + BOTTOM_RIGHT, BOTTOM_RIGHT ) ? 128 : 0; //BOTTOM-RIGHT
 
         int index = GetIndex((byte) mask);
 
@@ -92,7 +87,6 @@ public class EightBitTile : Tile {
     private bool HasWallTile( ITilemap tilemap, Vector3Int position, Vector3Int corner ) {
         Vector3Int centerTile = position - corner;
 
-        //
         if( tilemap.GetTile( position ) ) {
             if( corner == TOP_LEFT ) {
                 return ( tilemap.GetTile( centerTile + TOP ) && tilemap.GetTile( centerTile + LEFT ) );
